@@ -1,0 +1,1283 @@
+[
+  {
+    "id": "hot-sour-soup",
+    "name": "Hot & Sour Soup",
+    "category": "Soup",
+    "groups": [
+      {
+        "size": "S",
+        "ingredients": [
+          "2 fried shrimp"
+        ]
+      },
+      {
+        "size": "L",
+        "ingredients": [
+          "4 fried shrimp"
+        ]
+      }
+    ],
+    "notes": [],
+    "sourcePage": 1
+  },
+  {
+    "id": "wonton-soup",
+    "name": "Wonton Soup",
+    "category": "Soup",
+    "groups": [
+      {
+        "size": "M",
+        "ingredients": [
+          "Bok choy"
+        ]
+      }
+    ],
+    "notes": [],
+    "sourcePage": 1
+  },
+  {
+    "id": "five-flavored-beef",
+    "name": "Five-Flavored Beef",
+    "category": "Beef",
+    "groups": [
+      {
+        "size": "M",
+        "ingredients": [
+          "Spicy beef"
+        ]
+      },
+      {
+        "size": "L",
+        "ingredients": [
+          "Bean sprouts"
+        ]
+      },
+      {
+        "size": "M",
+        "ingredients": [
+          "Sliced red onion",
+          "Green onion"
+        ]
+      },
+      {
+        "size": "S",
+        "ingredients": [
+          "Basil"
+        ]
+      }
+    ],
+    "notes": [],
+    "sourcePage": 1
+  },
+  {
+    "id": "mongolian-beef",
+    "name": "Mongolian Beef",
+    "category": "Beef",
+    "groups": [
+      {
+        "size": "M",
+        "ingredients": [
+          "Beef"
+        ]
+      },
+      {
+        "size": "L",
+        "ingredients": [
+          "Red onion",
+          "Green onion"
+        ]
+      }
+    ],
+    "notes": [],
+    "sourcePage": 1
+  },
+  {
+    "id": "beef-short-rib",
+    "name": "Beef Short Rib",
+    "category": "Beef",
+    "groups": [
+      {
+        "size": "Kit",
+        "ingredients": [
+          "Rib",
+          "1 radish",
+          "Carrot"
+        ]
+      }
+    ],
+    "notes": [
+      "Boil 5 minutes"
+    ],
+    "sourcePage": 1
+  },
+  {
+    "id": "black-pepper-beef",
+    "name": "Black Pepper Beef",
+    "category": "Beef",
+    "groups": [
+      {
+        "size": "M",
+        "ingredients": [
+          "Square-cut red and green pepper",
+          "Red onion"
+        ]
+      },
+      {
+        "size": "S",
+        "ingredients": [
+          "Garlic",
+          "Green onion root"
+        ]
+      },
+      {
+        "size": "S",
+        "ingredients": [
+          "Beef steaks"
+        ]
+      }
+    ],
+    "notes": [],
+    "sourcePage": 1
+  },
+  {
+    "id": "broccoli-beef",
+    "name": "Broccoli Beef",
+    "category": "Beef",
+    "groups": [
+      {
+        "size": "Bowl",
+        "ingredients": [
+          "Broccoli"
+        ]
+      },
+      {
+        "size": "M",
+        "ingredients": [
+          "Beef"
+        ]
+      },
+      {
+        "size": "S",
+        "ingredients": [
+          "Garlic",
+          "Carrot"
+        ]
+      }
+    ],
+    "notes": [],
+    "sourcePage": 2
+  },
+  {
+    "id": "green-beans-with-beef",
+    "name": "Green Beans with Beef",
+    "category": "Beef",
+    "groups": [
+      {
+        "size": "L",
+        "ingredients": [
+          "Green beans"
+        ]
+      },
+      {
+        "size": "M",
+        "ingredients": [
+          "Beef"
+        ]
+      },
+      {
+        "size": "S",
+        "ingredients": [
+          "Garlic",
+          "Carrots"
+        ]
+      }
+    ],
+    "notes": [],
+    "sourcePage": 2
+  },
+  {
+    "id": "beef-in-hot-oil",
+    "name": "Beef in Hot Oil",
+    "category": "Beef",
+    "groups": [
+      {
+        "size": "M",
+        "ingredients": [
+          "Beef"
+        ]
+      },
+      {
+        "size": "M",
+        "ingredients": [
+          "Green onion",
+          "Bean sprouts",
+          "Wood ear mushroom",
+          "Sichuan peppercorn"
+        ]
+      }
+    ],
+    "notes": [],
+    "sourcePage": 2
+  },
+  {
+    "id": "crispy-pork-belly",
+    "name": "Crispy Pork Belly",
+    "category": "Pork",
+    "groups": [],
+    "notes": [
+      "Crispy pork with salt"
+    ],
+    "sourcePage": 2
+  },
+  {
+    "id": "tung-po-pork-belly",
+    "name": "Tung Po Pork Belly",
+    "category": "Pork",
+    "groups": [
+      {
+        "size": "—",
+        "ingredients": [
+          "3 pieces of steamed buns"
+        ]
+      }
+    ],
+    "notes": [],
+    "sourcePage": 2
+  },
+  {
+    "id": "smoked-bacon-with-chinese-cauliflower",
+    "name": "Smoked Bacon with Chinese Cauliflower",
+    "category": "Pork",
+    "groups": [
+      {
+        "size": "Bowl",
+        "ingredients": [
+          "Cauliflower"
+        ]
+      },
+      {
+        "size": "M",
+        "ingredients": [
+          "Bacon",
+          "Sausage"
+        ]
+      },
+      {
+        "size": "S",
+        "ingredients": [
+          "Garlic",
+          "Jalapeño"
+        ]
+      }
+    ],
+    "notes": [],
+    "sourcePage": 3
+  },
+  {
+    "id": "smoked-pork-with-rice-cakes",
+    "name": "Smoked Pork with Rice Cakes",
+    "category": "Pork",
+    "groups": [
+      {
+        "size": "M",
+        "ingredients": [
+          "Rice cakes"
+        ]
+      },
+      {
+        "size": "S",
+        "ingredients": [
+          "Bacon",
+          "Pork"
+        ]
+      },
+      {
+        "size": "S",
+        "ingredients": [
+          "Chopped red onion"
+        ]
+      },
+      {
+        "size": "S",
+        "ingredients": [
+          "Bell pepper",
+          "Snow peas",
+          "Zucchini",
+          "Mushroom"
+        ]
+      }
+    ],
+    "notes": [],
+    "sourcePage": 3
+  },
+  {
+    "id": "pineapple-pork-ribs",
+    "name": "Pineapple Pork Ribs",
+    "category": "Pork",
+    "groups": [
+      {
+        "size": "M",
+        "ingredients": [
+          "Pineapple",
+          "Red onion",
+          "Pepper"
+        ]
+      }
+    ],
+    "notes": [
+      "Ready pan"
+    ],
+    "sourcePage": 3
+  },
+  {
+    "id": "whole-five-spiced-crispy-duck",
+    "name": "Whole Five-Spiced Crispy Duck",
+    "category": "Poultry",
+    "groups": [],
+    "notes": [
+      "Inside"
+    ],
+    "sourcePage": 3
+  },
+  {
+    "id": "orange-chicken",
+    "name": "Orange Chicken",
+    "category": "Poultry",
+    "groups": [],
+    "notes": [
+      "Blue plate"
+    ],
+    "sourcePage": 3
+  },
+  {
+    "id": "tea-smoked-chicken",
+    "name": "Tea-Smoked Chicken",
+    "category": "Poultry",
+    "groups": [],
+    "notes": [
+      "Inside"
+    ],
+    "sourcePage": 4
+  },
+  {
+    "id": "green-beans-with-chicken",
+    "name": "Green Beans with Chicken",
+    "category": "Poultry",
+    "groups": [
+      {
+        "size": "L",
+        "ingredients": [
+          "Green beans"
+        ]
+      },
+      {
+        "size": "S",
+        "ingredients": [
+          "Chicken"
+        ]
+      }
+    ],
+    "notes": [],
+    "sourcePage": 4
+  },
+  {
+    "id": "garlic-crispy-chicken",
+    "name": "Garlic Crispy Chicken",
+    "category": "Poultry",
+    "groups": [],
+    "notes": [
+      "Ready pan"
+    ],
+    "sourcePage": 4
+  },
+  {
+    "id": "broccoli-chicken",
+    "name": "Broccoli Chicken",
+    "category": "Poultry",
+    "groups": [
+      {
+        "size": "Bowl",
+        "ingredients": [
+          "Broccoli"
+        ]
+      },
+      {
+        "size": "S",
+        "ingredients": [
+          "Chicken"
+        ]
+      }
+    ],
+    "notes": [],
+    "sourcePage": 4
+  },
+  {
+    "id": "firecracker-chicken",
+    "name": "Firecracker Chicken",
+    "category": "Poultry",
+    "groups": [
+      {
+        "size": "M",
+        "ingredients": [
+          "Fried chicken"
+        ]
+      },
+      {
+        "size": "M",
+        "ingredients": [
+          "Garlic",
+          "Jalapeño",
+          "Chopped red onion",
+          "Red onion",
+          "Pepper"
+        ]
+      }
+    ],
+    "notes": [],
+    "sourcePage": 4
+  },
+  {
+    "id": "three-chili-chicken",
+    "name": "Three-Chili Chicken",
+    "category": "Poultry",
+    "groups": [
+      {
+        "size": "S",
+        "ingredients": [
+          "Chicken"
+        ]
+      },
+      {
+        "size": "L",
+        "ingredients": [
+          "Bell pepper",
+          "Red onion",
+          "Celery"
+        ]
+      }
+    ],
+    "notes": [],
+    "sourcePage": 4
+  },
+  {
+    "id": "mongolian-chicken",
+    "name": "Mongolian Chicken",
+    "category": "Poultry",
+    "groups": [
+      {
+        "size": "S",
+        "ingredients": [
+          "Chicken"
+        ]
+      },
+      {
+        "size": "L",
+        "ingredients": [
+          "A lot of red onions"
+        ]
+      },
+      {
+        "size": "—",
+        "ingredients": [
+          "A little bit of green onion"
+        ]
+      }
+    ],
+    "notes": [],
+    "sourcePage": 4
+  },
+  {
+    "id": "curry-chicken",
+    "name": "Curry Chicken",
+    "category": "Poultry",
+    "groups": [
+      {
+        "size": "S",
+        "ingredients": [
+          "Chicken"
+        ]
+      },
+      {
+        "size": "L",
+        "ingredients": [
+          "Cauliflower",
+          "Pepper",
+          "Zucchini",
+          "Celery"
+        ]
+      },
+      {
+        "size": "S",
+        "ingredients": [
+          "Garlic",
+          "Green onion",
+          "Jalapeño"
+        ]
+      }
+    ],
+    "notes": [],
+    "sourcePage": 4
+  },
+  {
+    "id": "sweet-sour-chicken",
+    "name": "Sweet & Sour Chicken",
+    "category": "Poultry",
+    "groups": [
+      {
+        "size": "M",
+        "ingredients": [
+          "Pepper",
+          "Red onion",
+          "Pineapple"
+        ]
+      }
+    ],
+    "notes": [],
+    "sourcePage": 4
+  },
+  {
+    "id": "mushu-chicken",
+    "name": "Mushu Chicken",
+    "category": "Poultry",
+    "groups": [
+      {
+        "size": "L",
+        "ingredients": [
+          "Cabbage",
+          "Bean sprouts",
+          "Sliced onion",
+          "Mushroom"
+        ]
+      }
+    ],
+    "notes": [],
+    "sourcePage": 4
+  },
+  {
+    "id": "kung-pao-prawns",
+    "name": "Kung Pao Prawns",
+    "category": "Seafood",
+    "groups": [
+      {
+        "size": "L",
+        "ingredients": [
+          "Pepper",
+          "Red onion",
+          "Cucumber"
+        ]
+      },
+      {
+        "size": "S",
+        "ingredients": [
+          "Garlic",
+          "Green onion"
+        ]
+      },
+      {
+        "size": "S",
+        "ingredients": [
+          "10 prawns (D) — fry"
+        ]
+      },
+      {
+        "size": "S",
+        "ingredients": [
+          "6 prawns (L)"
+        ]
+      }
+    ],
+    "notes": [
+      "The source uses (D) and (L) for prawns; their meaning is not explained."
+    ],
+    "sourcePage": 5
+  },
+  {
+    "id": "salt-and-pepper-tiger-prawns",
+    "name": "Salt and Pepper Tiger Prawns",
+    "category": "Seafood",
+    "groups": [
+      {
+        "size": "S",
+        "ingredients": [
+          "Garlic",
+          "Green onion",
+          "Chopped pepper",
+          "Chopped red onion"
+        ]
+      },
+      {
+        "size": "—",
+        "ingredients": [
+          "10 shrimp with shell"
+        ]
+      }
+    ],
+    "notes": [],
+    "sourcePage": 5
+  },
+  {
+    "id": "saut-ed-fish-fillet",
+    "name": "Sautéed Fish Fillet",
+    "category": "Seafood",
+    "groups": [
+      {
+        "size": "S",
+        "ingredients": [
+          "White fish"
+        ]
+      },
+      {
+        "size": "—",
+        "ingredients": [
+          "Mushroom",
+          "Zucchini",
+          "Celery",
+          "Snow peas"
+        ]
+      },
+      {
+        "size": "S",
+        "ingredients": [
+          "Carrot",
+          "Green onion",
+          "Garlic"
+        ]
+      }
+    ],
+    "notes": [],
+    "sourcePage": 5
+  },
+  {
+    "id": "fish-fillet-in-hot-oil",
+    "name": "Fish Fillet in Hot Oil",
+    "category": "Seafood",
+    "groups": [
+      {
+        "size": "Large bowl",
+        "ingredients": [
+          "Bean sprouts",
+          "Wood ear mushroom"
+        ]
+      },
+      {
+        "size": "S",
+        "ingredients": [
+          "White fish"
+        ]
+      },
+      {
+        "size": "S",
+        "ingredients": [
+          "Green onion",
+          "Garlic OR garlic jalapeño"
+        ]
+      }
+    ],
+    "notes": [],
+    "sourcePage": 5
+  },
+  {
+    "id": "honey-walnut-prawns",
+    "name": "Honey Walnut Prawns",
+    "category": "Seafood",
+    "groups": [
+      {
+        "size": "—",
+        "ingredients": [
+          "8 shrimp with cornstarch"
+        ]
+      }
+    ],
+    "notes": [
+      "Mix honey sauce"
+    ],
+    "sourcePage": 6
+  },
+  {
+    "id": "snow-peas-with-prawns",
+    "name": "Snow Peas with Prawns",
+    "category": "Seafood",
+    "groups": [
+      {
+        "size": "M",
+        "ingredients": [
+          "Snow peas"
+        ]
+      },
+      {
+        "size": "—",
+        "ingredients": [
+          "10 prawns"
+        ]
+      },
+      {
+        "size": "S",
+        "ingredients": [
+          "Garlic",
+          "Carrot",
+          "Green onion"
+        ]
+      }
+    ],
+    "notes": [],
+    "sourcePage": 6
+  },
+  {
+    "id": "broccoli-prawns",
+    "name": "Broccoli Prawns",
+    "category": "Seafood",
+    "groups": [
+      {
+        "size": "L",
+        "ingredients": [
+          "Broccoli"
+        ]
+      },
+      {
+        "size": "S",
+        "ingredients": [
+          "Garlic",
+          "Green onion",
+          "Carrot"
+        ]
+      }
+    ],
+    "notes": [],
+    "sourcePage": 6
+  },
+  {
+    "id": "seafood-with-rice-cakes",
+    "name": "Seafood with Rice Cakes",
+    "category": "Seafood",
+    "groups": [
+      {
+        "size": "M",
+        "ingredients": [
+          "Rice cakes"
+        ]
+      },
+      {
+        "size": "—",
+        "ingredients": [
+          "4 scallops",
+          "4 shrimp",
+          "4 squid"
+        ]
+      },
+      {
+        "size": "L",
+        "ingredients": [
+          "Cabbage",
+          "A little red onion",
+          "Green onion"
+        ]
+      }
+    ],
+    "notes": [],
+    "sourcePage": 6
+  },
+  {
+    "id": "saut-ed-seafood-with-wild-mushrooms",
+    "name": "Sautéed Seafood with Wild Mushrooms",
+    "category": "Seafood",
+    "groups": [
+      {
+        "size": "L",
+        "ingredients": [
+          "Two mushrooms"
+        ]
+      },
+      {
+        "size": "S",
+        "ingredients": [
+          "4 shrimp",
+          "4 scallops",
+          "4 squid"
+        ]
+      },
+      {
+        "size": "L",
+        "ingredients": [
+          "Sliced red onion",
+          "Pepper"
+        ]
+      },
+      {
+        "size": "L",
+        "ingredients": [
+          "Red onion",
+          "Green onion roots",
+          "Garlic"
+        ]
+      }
+    ],
+    "notes": [],
+    "sourcePage": 6
+  },
+  {
+    "id": "firecracker-prawns",
+    "name": "Firecracker Prawns",
+    "category": "Seafood",
+    "groups": [
+      {
+        "size": "S",
+        "ingredients": [
+          "Garlic",
+          "Green onion root",
+          "Chopped red onion",
+          "Pepper"
+        ]
+      },
+      {
+        "size": "—",
+        "ingredients": [
+          "10 fried shrimp"
+        ]
+      }
+    ],
+    "notes": [],
+    "sourcePage": 6
+  },
+  {
+    "id": "spicy-crispy-fish-fillet",
+    "name": "Spicy Crispy Fish Fillet",
+    "category": "Seafood",
+    "groups": [
+      {
+        "size": "S",
+        "ingredients": [
+          "Garlic",
+          "Green onion root",
+          "Jalapeño",
+          "Red onion"
+        ]
+      }
+    ],
+    "notes": [],
+    "sourcePage": 7
+  },
+  {
+    "id": "forbidden-fried-rice",
+    "name": "Forbidden Fried Rice",
+    "category": "Rice",
+    "groups": [
+      {
+        "size": "M",
+        "ingredients": [
+          "Brown rice"
+        ]
+      },
+      {
+        "size": "M",
+        "ingredients": [
+          "Mixed vegetables"
+        ]
+      },
+      {
+        "size": "S",
+        "ingredients": [
+          "Chopped onion",
+          "Lianzi bean*"
+        ]
+      }
+    ],
+    "notes": [
+      "The asterisk after “Lianzi bean” appears in the source but is not explained."
+    ],
+    "sourcePage": 7
+  },
+  {
+    "id": "squid-ink-baked-rice",
+    "name": "Squid Ink Baked Rice",
+    "category": "Rice",
+    "groups": [
+      {
+        "size": "Stone bowl",
+        "ingredients": [
+          "Rice"
+        ]
+      },
+      {
+        "size": "S",
+        "ingredients": [
+          "Bacon",
+          "Chopped onion"
+        ]
+      }
+    ],
+    "notes": [
+      "Last: green onion"
+    ],
+    "sourcePage": 7
+  },
+  {
+    "id": "rib-eye-steak-fried-rice",
+    "name": "Rib-Eye Steak Fried Rice",
+    "category": "Rice",
+    "groups": [
+      {
+        "size": "M",
+        "ingredients": [
+          "Mixed vegetables"
+        ]
+      }
+    ],
+    "notes": [],
+    "sourcePage": 7
+  },
+  {
+    "id": "peony-fried-rice-combo",
+    "name": "Peony Fried Rice Combo",
+    "category": "Rice",
+    "groups": [
+      {
+        "size": "—",
+        "ingredients": [
+          "Mixed vegetables"
+        ]
+      },
+      {
+        "size": "—",
+        "ingredients": [
+          "Chicken",
+          "BBQ pork",
+          "Shrimp"
+        ]
+      }
+    ],
+    "notes": [],
+    "sourcePage": 7
+  },
+  {
+    "id": "spicy-seafood-noodle-soup",
+    "name": "Spicy Seafood Noodle Soup",
+    "category": "Noodles",
+    "groups": [
+      {
+        "size": "L",
+        "ingredients": [
+          "Wood ear mushroom",
+          "Broccoli",
+          "Bok choy"
+        ]
+      },
+      {
+        "size": "S",
+        "ingredients": [
+          "Sliced red onion"
+        ]
+      },
+      {
+        "size": "S",
+        "ingredients": [
+          "2 ika (squid)",
+          "2 shrimp",
+          "2 mussels"
+        ]
+      }
+    ],
+    "notes": [],
+    "sourcePage": 8
+  },
+  {
+    "id": "black-bean-noodles",
+    "name": "Black Bean Noodles",
+    "category": "Noodles",
+    "groups": [
+      {
+        "size": "M",
+        "ingredients": [
+          "Chopped zucchini",
+          "Chopped red onion"
+        ]
+      }
+    ],
+    "notes": [],
+    "sourcePage": 8
+  },
+  {
+    "id": "chow-fun",
+    "name": "Chow Fun",
+    "category": "Noodles",
+    "groups": [
+      {
+        "size": "L",
+        "ingredients": [
+          "Bean sprouts",
+          "Red onion",
+          "Green onion"
+        ]
+      }
+    ],
+    "notes": [],
+    "sourcePage": 8
+  },
+  {
+    "id": "chow-mein",
+    "name": "Chow Mein",
+    "category": "Noodles",
+    "groups": [
+      {
+        "size": "L",
+        "ingredients": [
+          "Bean sprouts",
+          "Red onion",
+          "Green onion"
+        ]
+      }
+    ],
+    "notes": [],
+    "sourcePage": 8
+  },
+  {
+    "id": "seafood-singapore-noodles",
+    "name": "Seafood Singapore Noodles",
+    "category": "Noodles",
+    "groups": [
+      {
+        "size": "L",
+        "ingredients": [
+          "Bean sprouts",
+          "Red onion",
+          "Cabbage",
+          "Green onion"
+        ]
+      },
+      {
+        "size": "M",
+        "ingredients": [
+          "Singapore noodles"
+        ]
+      },
+      {
+        "size": "S",
+        "ingredients": [
+          "4 ika (squid)",
+          "4 shrimp",
+          "4 scallops"
+        ]
+      }
+    ],
+    "notes": [],
+    "sourcePage": 9
+  },
+  {
+    "id": "vegetable-chow-mein",
+    "name": "Vegetable Chow Mein",
+    "category": "Noodles",
+    "groups": [
+      {
+        "size": "L",
+        "ingredients": [
+          "Cabbage",
+          "Red onion",
+          "Green onion"
+        ]
+      }
+    ],
+    "notes": [],
+    "sourcePage": 9
+  },
+  {
+    "id": "mixed-vegetables",
+    "name": "Mixed Vegetables",
+    "category": "Vegetables & Tofu",
+    "groups": [
+      {
+        "size": "S",
+        "ingredients": [
+          "Zucchini",
+          "Carrot",
+          "Celery",
+          "Pepper",
+          "Mushroom",
+          "Sugar peas"
+        ]
+      }
+    ],
+    "notes": [],
+    "sourcePage": 9
+  },
+  {
+    "id": "eggplant-and-green-beans",
+    "name": "Eggplant and Green Beans",
+    "category": "Vegetables & Tofu",
+    "groups": [
+      {
+        "size": "L",
+        "ingredients": [
+          "Eggplant"
+        ]
+      },
+      {
+        "size": "M",
+        "ingredients": [
+          "Green beans"
+        ]
+      },
+      {
+        "size": "S",
+        "ingredients": [
+          "Garlic",
+          "Carrots"
+        ]
+      }
+    ],
+    "notes": [],
+    "sourcePage": 9
+  },
+  {
+    "id": "bok-choy-in-soup-broth",
+    "name": "Bok Choy in Soup Broth",
+    "category": "Vegetables & Tofu",
+    "groups": [
+      {
+        "size": "L",
+        "ingredients": [
+          "Bok choy"
+        ]
+      },
+      {
+        "size": "S",
+        "ingredients": [
+          "Sliced mushroom",
+          "Fried garlic",
+          "Carrot"
+        ]
+      }
+    ],
+    "notes": [],
+    "sourcePage": 9
+  },
+  {
+    "id": "mapo-tofu",
+    "name": "Mapo Tofu",
+    "category": "Vegetables & Tofu",
+    "groups": [
+      {
+        "size": "—",
+        "ingredients": [
+          "Tofu"
+        ]
+      },
+      {
+        "size": "M",
+        "ingredients": [
+          "Garlic",
+          "Zha cai",
+          "Chopped red onion"
+        ]
+      },
+      {
+        "size": "S",
+        "ingredients": [
+          "Mushroom",
+          "Zucchini",
+          "Vegetable mix"
+        ]
+      }
+    ],
+    "notes": [],
+    "sourcePage": 9
+  },
+  {
+    "id": "garlic-green-beans",
+    "name": "Garlic Green Beans",
+    "category": "Vegetables & Tofu",
+    "groups": [
+      {
+        "size": "L",
+        "ingredients": [
+          "Green beans"
+        ]
+      }
+    ],
+    "notes": [],
+    "sourcePage": 10
+  },
+  {
+    "id": "garlic-broccoli",
+    "name": "Garlic Broccoli",
+    "category": "Vegetables & Tofu",
+    "groups": [
+      {
+        "size": "L",
+        "ingredients": [
+          "Broccoli"
+        ]
+      },
+      {
+        "size": "S",
+        "ingredients": [
+          "Garlic",
+          "Carrots"
+        ]
+      }
+    ],
+    "notes": [],
+    "sourcePage": 10
+  },
+  {
+    "id": "lettuce-cup",
+    "name": "Lettuce Cup",
+    "category": "Vegetables & Tofu",
+    "groups": [
+      {
+        "size": "S",
+        "ingredients": [
+          "Chopped mushroom",
+          "Zucchini",
+          "Mixed vegetables"
+        ]
+      },
+      {
+        "size": "S",
+        "ingredients": [
+          "Garlic",
+          "Onion roots",
+          "Chopped onion",
+          "Pepper"
+        ]
+      }
+    ],
+    "notes": [],
+    "sourcePage": 10
+  },
+  {
+    "id": "vegetable-curry",
+    "name": "Vegetable Curry",
+    "category": "Vegetables & Tofu",
+    "groups": [
+      {
+        "size": "M",
+        "ingredients": [
+          "Sugar peas",
+          "Zucchini",
+          "Pepper",
+          "Cauliflower",
+          "Celery"
+        ]
+      }
+    ],
+    "notes": [],
+    "sourcePage": 10
+  },
+  {
+    "id": "firecracker-tofu",
+    "name": "Firecracker Tofu",
+    "category": "Vegetables & Tofu",
+    "groups": [
+      {
+        "size": "M",
+        "ingredients": [
+          "Garlic",
+          "Green onion root",
+          "Red onion",
+          "Jalapeño"
+        ]
+      }
+    ],
+    "notes": [],
+    "sourcePage": 10
+  }
+]
