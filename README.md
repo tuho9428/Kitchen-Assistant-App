@@ -16,7 +16,8 @@ Open [localhost:3000](http://localhost:3000). The app automatically creates its 
 ## Use
 
 - Search names or ingredients instantly with multiple partial terms, or filter by category.
-- Focus search to reuse up to six recent searches. History is saved per device when opening a matching dish or pressing Enter. Use Clear in the history list to remove it; recipe data and shared favorites remain in Neon.
+- Type to see up to five actual dish recommendations, ranked by dish name before ingredient matches. Tap one to open its prep directly, or use the arrow keys and Enter.
+- Focus an empty search to reuse up to six recent searches. History is saved per device when opening a matching dish or pressing Enter. Use Clear in the history list to remove it; recipe data and shared favorites remain in Neon.
 - Open Menu for Add dish, favorites, practice, hidden dishes, backups and sync. The menu stays collapsed until opened, leaving more room for cards.
 - Open dishes to see exact prep groups, container sizes, quantities, notes and original source pages.
 - Star dishes to add them to the shared favorites; the whole kitchen uses the same list.
@@ -51,6 +52,7 @@ Browser tests use installed Chrome and a loopback Neon-compatible HTTP endpoint 
 ## Vercel
 
 No deployment has been performed. After approval, deploy with the Next.js preset, npm ci and npm run build. Add the existing Neon DATABASE_URL as a server-side environment variable. No NEXT_PUBLIC database credentials or login callback settings are needed. Development and build use the supported webpack path on this Windows setup.
+
 
 
 

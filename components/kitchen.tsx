@@ -220,6 +220,12 @@ export function Kitchen({
             <>
               <div className="searchdock">
                 <SearchBox
+                  dishes={filtered}
+                  onDishSelect={(dish) => {
+                    setQuery(dish.name);
+                    setSelected(dish);
+                    setDeleting(false);
+                  }}
                   value={query}
                   onChange={setQuery}
                   inputRef={search}

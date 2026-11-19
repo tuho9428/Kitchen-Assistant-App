@@ -439,6 +439,7 @@ test("recent searches can be reused, navigated by keyboard and cleared", async (
   await expect(
     page.getByRole("article", { name: "Mongolian Beef", exact: true }),
   ).toBeVisible();
+  await search.fill("");
   await search.press("ArrowDown");
   await expect(recent).toBeFocused();
   await recent.press("Escape");
@@ -451,4 +452,56 @@ test("recent searches can be reused, navigated by keyboard and cleared", async (
   await page.reload();
   await search.focus();
   await expect(history).toHaveCount(0);
+});
+
+test("dish recommendations open prep directly by name, ingredient or keyboard", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await openBook(page);
+  const search = page.getByRole("textbox", {
+    name: "Search dishes or ingredients",
+  });
+  await search.fill("mongo");
+  const suggestions = page.getByRole("region", {
+    name: "Suggested dishes",
+    exact: true,
+  });
+  await expect(suggestions).toBeVisible();
+  const first = suggestions.getByRole("button", {
+    name: "Open prep for Mongolian Beef",
+    exact: true,
+  });
+  await expect(first).toBeVisible();
+  await search.press("ArrowDown");
+  await expect(first).toBeFocused();
+  await first.press("Enter");
+  await expect(
+    page
+      .getByRole("dialog")
+      .getByRole("heading", { name: "Mongolian Beef", exact: true }),
+  ).toBeVisible();
+  await page.getByRole("button", { name: "Close dialog", exact: true }).click();
+  await search.fill("lianzi");
+  await suggestions
+    .getByRole("button", {
+      name: "Open prep for Forbidden Fried Rice",
+      exact: true,
+    })
+    .click();
+  await expect(
+    page
+      .getByRole("dialog")
+      .getByRole("heading", { name: "Forbidden Fried Rice", exact: true }),
+  ).toBeVisible();
+  await page.getByRole("button", { name: "Close dialog", exact: true }).click();
+  await search.fill("beef");
+  await expect(
+    suggestions.getByRole("button", { name: /Open prep for/ }),
+  ).toHaveCount(5);
+  await page.screenshot({ path: "outputs/search-suggestions.png" });
+  await search.press("Escape");
+  await expect(suggestions).toHaveCount(0);
+  await search.fill("no-such-dish");
+  await expect(suggestions).toHaveCount(0);
 });
