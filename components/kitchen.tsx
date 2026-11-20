@@ -15,6 +15,7 @@ import { matches, type Dish } from "@/lib/dishes";
 import { Prep } from "./prep";
 import { DishCard } from "./dish-card";
 import { BookMenu } from "./book-menu";
+import { DishTimerButton } from "./timers/dish-timer-button";
 import { SearchBox } from "./search-box";
 import { rememberSearch } from "@/lib/recent-searches";
 import { Dialog } from "./dialog";
@@ -385,6 +386,7 @@ export function Kitchen({
         >
           <div className="p-5 md:p-7">
             <Prep dish={current} />
+            <DishTimerButton dish={current} />
             <div className="flex flex-wrap gap-3 mt-7">
               <button
                 className="button"
@@ -468,7 +470,9 @@ export function Kitchen({
                   <button
                     className="button"
                     disabled={busy}
-                    onClick={() => setDeleting(false)}
+                    onClick={() => {
+                      setDeleting(false);
+                    }}
                   >
                     Keep dish
                   </button>

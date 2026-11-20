@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import {
   Menu,
@@ -10,6 +11,7 @@ import {
   EyeOff,
   DatabaseBackup,
   RefreshCw,
+  Timer,
 } from "lucide-react";
 type View = "lookup" | "favorites" | "practice";
 export function BookMenu({
@@ -105,6 +107,10 @@ export function BookMenu({
           <BookOpen size={18} />
           Practice
         </button>
+        <Link className="navitem" href="/timers" onClick={() => setOpen(false)}>
+          <Timer size={18} />
+          Timers
+        </Link>
         <div className="my-2 border-t border-[var(--line)]" />
         <button className="navitem" onClick={() => choose(onAdd)}>
           <Plus size={18} />

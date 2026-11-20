@@ -1,0 +1,21 @@
+select pg_advisory_xact_lock(hashtextextended('kitchen-shared-timer-schema-v4',0));
+
+-- statement-breakpoint
+
+create or replace function kitchen_prep.save_shared_timer_preset(p_preset jsonb,p_expected timestamptz) returns kitchen_prep.timer_presets language plpgsql set search_path='' as $$ declare saved kitchen_prep.timer_presets; begin perform pg_advisory_xact_lock(hashtextextended('timer-preset:'||(p_preset->>'id'),0)); if p_expected is null then insert into kitchen_prep.timer_presets(id,label,duration_seconds,enabled,updated_by) values((p_preset->>'id')::uuid,p_preset->>'label',(p_preset->>'duration_seconds')::integer,(p_preset->>'enabled')::boolean,null) returning * into saved; else update kitchen_prep.timer_presets set label=p_preset->>'label',duration_seconds=(p_preset->>'duration_seconds')::integer,enabled=(p_preset->>'enabled')::boolean,updated_by=null where id=(p_preset->>'id')::uuid and updated_at=p_expected returning * into saved; if not found then raise exception 'Preset changed. Reload the latest version before saving.'; end if; end if; return saved; end $$;
+
+-- statement-breakpoint
+
+create or replace function kitchen_prep.delete_shared_timer_preset(p_id uuid,p_expected timestamptz) returns void language plpgsql set search_path='' as $$ begin perform pg_advisory_xact_lock(hashtextextended('timer-preset:'||p_id::text,0)); if not exists(select 1 from kitchen_prep.timer_presets where id=p_id and updated_at=p_expected) then raise exception 'Preset changed. Reload before deleting.'; end if; update kitchen_prep.dish_timer_settings set preset_id=null,updated_by=null where preset_id=p_id; delete from kitchen_prep.timer_presets where id=p_id and updated_at=p_expected; if not found then raise exception 'Preset changed. Reload before deleting.'; end if; end $$;
+
+-- statement-breakpoint
+
+create or replace function kitchen_prep.save_shared_dish_timer(p_dish_id text,p_enabled boolean,p_preset_id uuid,p_expected timestamptz) returns kitchen_prep.dish_timer_settings language plpgsql set search_path='' as $$ declare saved kitchen_prep.dish_timer_settings; begin perform pg_advisory_xact_lock(hashtextextended('dish-timer:'||p_dish_id,0)); if p_enabled and p_preset_id is not null and not exists(select 1 from kitchen_prep.timer_presets where id=p_preset_id and enabled) then raise exception 'Choose an enabled preset or a custom duration.'; end if; if p_expected is null then insert into kitchen_prep.dish_timer_settings(dish_id,timer_enabled,preset_id,updated_by) values(p_dish_id,p_enabled,p_preset_id,null) returning * into saved; else update kitchen_prep.dish_timer_settings set timer_enabled=p_enabled,preset_id=p_preset_id,updated_by=null where dish_id=p_dish_id and updated_at=p_expected returning * into saved; if not found then raise exception 'Dish timer changed. Reload the latest setting before saving.'; end if; end if; return saved; end $$;
+
+-- statement-breakpoint
+
+revoke all on function kitchen_prep.save_shared_timer_preset(jsonb,timestamptz),kitchen_prep.delete_shared_timer_preset(uuid,timestamptz),kitchen_prep.save_shared_dish_timer(text,boolean,uuid,timestamptz) from public;
+
+-- statement-breakpoint
+
+insert into kitchen_prep.schema_migrations(version) values(4) on conflict do nothing;

@@ -6,7 +6,7 @@ const mocks = vi.hoisted(() => ({
 }));
 vi.mock("../lib/database", () => ({ database: mocks.database }));
 vi.mock("next/cache", () => ({ revalidatePath: mocks.revalidate }));
-import { saveDish, favorite } from "../lib/actions";
+import { saveDish, favorite, deleteDish } from "../lib/actions";
 import { seedRows } from "../lib/dishes";
 import source from "../data/dishes.json";
 const dish = seedRows(source)[0];
@@ -47,6 +47,17 @@ describe("No-login Neon server actions", () => {
     expect(mocks.query).toHaveBeenCalledWith(
       "insert into kitchen_prep.favorites(dish_id) values($1) on conflict do nothing",
       [dish.id],
+    );
+  });
+});
+
+describe("Shared permanent deletion", () => {
+  it("deletes without credentials and keeps the version conflict check", async () => {
+    mocks.query.mockResolvedValueOnce([]);
+    expect((await deleteDish(dish.id, "2026-11-19T00:00:00Z")).ok).toBe(true);
+    expect(mocks.query).toHaveBeenCalledWith(
+      "select kitchen_prep.delete_dish($1,$2::timestamptz)",
+      [dish.id, "2026-11-19T00:00:00Z"],
     );
   });
 });

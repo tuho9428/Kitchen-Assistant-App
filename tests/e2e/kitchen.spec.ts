@@ -59,7 +59,9 @@ test("no-login mobile lookup, filters, favorites and practice", async ({
   await expect(
     secondGroup.getByText("Green onion", { exact: true }),
   ).toBeVisible();
-  await page.screenshot({ path: "outputs/mobile-card-groups.png" });
+  await page.screenshot({
+    path: test.info().outputPath("mobile-card-groups.png"),
+  });
   await page
     .getByRole("button", { name: "View prep for Mongolian Beef" })
     .click();
@@ -68,7 +70,7 @@ test("no-login mobile lookup, filters, favorites and practice", async ({
   await expect(dialog.getByText("Green onion", { exact: true })).toBeVisible();
   await expect(dialog.getByText("M", { exact: true })).toBeVisible();
   await checkAccessibility(page);
-  await page.screenshot({ path: "outputs/mobile-prep.png" });
+  await page.screenshot({ path: test.info().outputPath("mobile-prep.png") });
   await dialog
     .getByRole("button", { name: "Save favorite", exact: true })
     .click();
@@ -121,7 +123,7 @@ test("no-login mobile lookup, filters, favorites and practice", async ({
       () => document.documentElement.scrollWidth <= window.innerWidth,
     ),
   ).toBe(true);
-  await page.screenshot({ path: "outputs/mobile-lookup.png" });
+  await page.screenshot({ path: test.info().outputPath("mobile-lookup.png") });
 });
 test("shared edits persist across sessions; failed save keeps draft; delete requires confirmation", async ({
   page,
@@ -221,6 +223,9 @@ test("shared edits persist across sessions; failed save keeps draft; delete requ
   await page
     .getByLabel("Type the dish name to confirm")
     .fill("Temporary test dish");
+  await expect(
+    page.getByLabel("Administrator password", { exact: true }),
+  ).toHaveCount(0);
   await page.getByRole("button", { name: "Delete permanently" }).click();
   await expect(page.getByRole("dialog")).toHaveCount(0);
 });
@@ -404,7 +409,7 @@ test("compact menu toggles and cards start near the top", async ({ page }) => {
     ).toBeFocused();
   }
   await page.setViewportSize({ width: 390, height: 844 });
-  await page.screenshot({ path: "outputs/compact-mobile.png" });
+  await page.screenshot({ path: test.info().outputPath("compact-mobile.png") });
 });
 
 test("recent searches can be reused, navigated by keyboard and cleared", async ({
@@ -432,7 +437,9 @@ test("recent searches can be reused, navigated by keyboard and cleared", async (
     exact: true,
   });
   await expect(recent).toBeVisible();
-  await page.screenshot({ path: "outputs/recent-searches.png" });
+  await page.screenshot({
+    path: test.info().outputPath("recent-searches.png"),
+  });
   await recent.click();
   await expect(search).toHaveValue("Mongolian Beef");
   await expect(history).toHaveCount(0);
@@ -499,7 +506,9 @@ test("dish recommendations open prep directly by name, ingredient or keyboard", 
   await expect(
     suggestions.getByRole("button", { name: /Open prep for/ }),
   ).toHaveCount(5);
-  await page.screenshot({ path: "outputs/search-suggestions.png" });
+  await page.screenshot({
+    path: test.info().outputPath("search-suggestions.png"),
+  });
   await search.press("Escape");
   await expect(suggestions).toHaveCount(0);
   await search.fill("no-such-dish");

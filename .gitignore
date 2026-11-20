@@ -38,3 +38,8 @@ test-results/
 playwright-report/
 .next-e2e/
 db/
+# Keep reviewed SQL migrations with the application.
+!db/
+db/*
+!db/migrations/
+!db/migrations/*.sql

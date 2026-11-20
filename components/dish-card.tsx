@@ -1,6 +1,7 @@
 "use client";
 import { ChevronRight, Eye, EyeOff, Star } from "lucide-react";
 import type { Dish } from "@/lib/dishes";
+import { DishTimerButton } from "./timers/dish-timer-button";
 export function DishCard({
   dish,
   favorite,
@@ -95,6 +96,7 @@ export function DishCard({
           </p>
         )}
       </div>
+      <DishTimerButton dish={dish} />
       <footer className="flex items-center justify-between gap-3 border-t border-[var(--line)] mt-3 pt-1">
         <button
           className="textbutton text-sm text-stone-600"

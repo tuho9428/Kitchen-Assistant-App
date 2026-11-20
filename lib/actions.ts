@@ -60,6 +60,8 @@ export async function deleteDish(id: string, expected: string) {
       expected,
     ]);
     revalidatePath("/");
+    revalidatePath("/dishes/" + id);
+    revalidatePath("/timers/settings");
   });
 }
 export async function favorite(id: string, on: boolean) {

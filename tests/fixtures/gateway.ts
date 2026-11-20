@@ -1,7 +1,22 @@
 // Test-only Neon HTTP protocol endpoint backed by PostgreSQL/PGlite.
 import { createServer } from "node:http";
 import { PGlite, type Transaction } from "@electric-sql/pglite";
+import { schemaStatements } from "../../lib/neon-schema";
+import { timerSchemaStatements } from "../../lib/timers/schema";
+import { sharedTimerSchemaStatements } from "../../lib/timers/shared-schema";
+import { seedRows } from "../../lib/dishes";
+import source from "../../data/dishes.json";
 const db = new PGlite();
+for (const statement of [
+  ...schemaStatements,
+  ...timerSchemaStatements,
+  ...sharedTimerSchemaStatements,
+])
+  await db.query(statement);
+await db.query("select kitchen_prep.seed_original_dishes($1)", [
+  JSON.stringify(seedRows(source)),
+]);
+
 type Query = { query: string; params?: unknown[] };
 async function execute(q: Query, tx: PGlite | Transaction) {
   const r = await tx.query(q.query, q.params);

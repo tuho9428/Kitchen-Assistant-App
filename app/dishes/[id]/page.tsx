@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { loadData } from "@/lib/actions";
 import { originalCatalog } from "@/lib/catalog";
 import { Prep } from "@/components/prep";
+import { DishTimerButton } from "@/components/timers/dish-timer-button";
 export const dynamic = "force-dynamic";
 export default async function DishPage({
   params,
@@ -24,6 +25,7 @@ export default async function DishPage({
         <p className="notice mb-6">Original reference. {result.error}</p>
       )}
       <Prep dish={dish} />
+      <DishTimerButton dish={dish} />
     </main>
   );
 }

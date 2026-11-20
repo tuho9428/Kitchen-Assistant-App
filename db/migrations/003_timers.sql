@@ -1,0 +1,65 @@
+select pg_advisory_xact_lock(hashtextextended('kitchen-timer-schema-v3',0));
+
+-- statement-breakpoint
+
+create table if not exists kitchen_prep.timer_admins(id uuid primary key default gen_random_uuid(),username text unique not null check(username=lower(username) and username ~ '^[a-z0-9_.@-]{1,64}$'),password_hash text not null,enabled boolean not null default true,session_version integer not null default 1,created_at timestamptz not null default now());
+
+-- statement-breakpoint
+
+create table if not exists kitchen_prep.timer_login_guard(username text primary key,failures integer not null,last_attempt timestamptz not null default now(),blocked_until timestamptz);
+
+-- statement-breakpoint
+
+create table if not exists kitchen_prep.timer_presets(id uuid primary key,label text not null check(length(btrim(label)) between 1 and 100),duration_seconds integer not null check(duration_seconds between 1 and 86400),enabled boolean not null default true,updated_at timestamptz not null default now(),updated_by uuid references kitchen_prep.timer_admins(id));
+
+-- statement-breakpoint
+
+create table if not exists kitchen_prep.dish_timer_settings(dish_id text primary key references kitchen_prep.dishes(id) on delete cascade,timer_enabled boolean not null default false,preset_id uuid references kitchen_prep.timer_presets(id) on delete set null,updated_at timestamptz not null default now(),updated_by uuid references kitchen_prep.timer_admins(id));
+
+-- statement-breakpoint
+
+create or replace function kitchen_prep.stamp_timer_config() returns trigger language plpgsql set search_path='' as $$ begin new.updated_at=clock_timestamp(); if TG_OP='UPDATE' then new.updated_at=greatest(new.updated_at,old.updated_at+interval '1 microsecond'); end if; return new; end $$;
+
+-- statement-breakpoint
+
+drop trigger if exists stamp_timer_preset on kitchen_prep.timer_presets;
+
+-- statement-breakpoint
+
+create trigger stamp_timer_preset before insert or update on kitchen_prep.timer_presets for each row execute function kitchen_prep.stamp_timer_config();
+
+-- statement-breakpoint
+
+drop trigger if exists stamp_dish_timer on kitchen_prep.dish_timer_settings;
+
+-- statement-breakpoint
+
+create trigger stamp_dish_timer before insert or update on kitchen_prep.dish_timer_settings for each row execute function kitchen_prep.stamp_timer_config();
+
+-- statement-breakpoint
+
+create or replace function kitchen_prep.assert_timer_admin(actor uuid,version integer) returns void language plpgsql set search_path='' as $$ begin if not exists(select 1 from kitchen_prep.timer_admins where id=actor and enabled and session_version=version) then raise exception 'Administrator access required'; end if; end $$;
+
+-- statement-breakpoint
+
+create or replace function kitchen_prep.save_timer_preset(actor uuid,version integer,p_preset jsonb,p_expected timestamptz) returns kitchen_prep.timer_presets language plpgsql set search_path='' as $$ declare saved kitchen_prep.timer_presets; begin perform kitchen_prep.assert_timer_admin(actor,version); perform pg_advisory_xact_lock(hashtextextended('timer-preset:'||(p_preset->>'id'),0)); if p_expected is null then insert into kitchen_prep.timer_presets(id,label,duration_seconds,enabled,updated_by) values((p_preset->>'id')::uuid,p_preset->>'label',(p_preset->>'duration_seconds')::integer,(p_preset->>'enabled')::boolean,actor) returning * into saved; else update kitchen_prep.timer_presets set label=p_preset->>'label',duration_seconds=(p_preset->>'duration_seconds')::integer,enabled=(p_preset->>'enabled')::boolean,updated_by=actor where id=(p_preset->>'id')::uuid and updated_at=p_expected returning * into saved; if not found then raise exception 'Preset changed. Reload the latest version before saving.'; end if; end if; return saved; end $$;
+
+-- statement-breakpoint
+
+create or replace function kitchen_prep.delete_timer_preset(actor uuid,version integer,p_id uuid,p_expected timestamptz) returns void language plpgsql set search_path='' as $$ begin perform kitchen_prep.assert_timer_admin(actor,version); perform pg_advisory_xact_lock(hashtextextended('timer-preset:'||p_id::text,0)); if not exists(select 1 from kitchen_prep.timer_presets where id=p_id and updated_at=p_expected) then raise exception 'Preset changed. Reload before deleting.'; end if; update kitchen_prep.dish_timer_settings set preset_id=null,updated_by=actor where preset_id=p_id; delete from kitchen_prep.timer_presets where id=p_id and updated_at=p_expected; if not found then raise exception 'Preset changed. Reload before deleting.'; end if; end $$;
+
+-- statement-breakpoint
+
+create or replace function kitchen_prep.save_dish_timer(actor uuid,version integer,p_dish_id text,p_enabled boolean,p_preset_id uuid,p_expected timestamptz) returns kitchen_prep.dish_timer_settings language plpgsql set search_path='' as $$ declare saved kitchen_prep.dish_timer_settings; begin perform kitchen_prep.assert_timer_admin(actor,version); perform pg_advisory_xact_lock(hashtextextended('dish-timer:'||p_dish_id,0)); if p_enabled and p_preset_id is not null and not exists(select 1 from kitchen_prep.timer_presets where id=p_preset_id and enabled) then raise exception 'Choose an enabled preset or a custom duration.'; end if; if p_expected is null then insert into kitchen_prep.dish_timer_settings(dish_id,timer_enabled,preset_id,updated_by) values(p_dish_id,p_enabled,p_preset_id,actor) returning * into saved; else update kitchen_prep.dish_timer_settings set timer_enabled=p_enabled,preset_id=p_preset_id,updated_by=actor where dish_id=p_dish_id and updated_at=p_expected returning * into saved; if not found then raise exception 'Dish timer changed. Reload the latest setting before saving.'; end if; end if; return saved; end $$;
+
+-- statement-breakpoint
+
+revoke all on kitchen_prep.timer_admins,kitchen_prep.timer_login_guard,kitchen_prep.timer_presets,kitchen_prep.dish_timer_settings from public;
+
+-- statement-breakpoint
+
+revoke all on function kitchen_prep.assert_timer_admin(uuid,integer),kitchen_prep.save_timer_preset(uuid,integer,jsonb,timestamptz),kitchen_prep.delete_timer_preset(uuid,integer,uuid,timestamptz),kitchen_prep.save_dish_timer(uuid,integer,text,boolean,uuid,timestamptz) from public;
+
+-- statement-breakpoint
+
+insert into kitchen_prep.schema_migrations(version) values(3) on conflict do nothing;

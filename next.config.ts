@@ -1,5 +1,6 @@
 import type { NextConfig } from "next";
 const config: NextConfig = {
+  logging: { serverFunctions: false },
   // Keep production output separate from browser-test development workers.
   distDir: process.env.KITCHEN_TEST_BUILD === "1" ? ".next-e2e" : ".next",
   async headers() {

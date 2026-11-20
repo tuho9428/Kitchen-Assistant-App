@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { GeistSans } from "geist/font/sans";
 import "./globals.css";
+import { TimerProvider } from "@/components/timers/provider";
 export const metadata: Metadata = {
   title: "Kitchen Prep · Lookup",
   description: "Shared ingredient lookup for the kitchen team",
@@ -13,7 +14,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <a href="#main" className="skip">
           Skip to content
         </a>
-        {children}
+        <TimerProvider>{children}</TimerProvider>
       </body>
     </html>
   );
