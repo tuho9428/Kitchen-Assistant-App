@@ -1,4 +1,4 @@
-import { TimersPage } from "@/components/timers/timers-page";
+import { MainTabs } from "@/components/main-tabs";
 export default function Page() {
-  return <TimersPage />;
+  return <MainTabs initialPath="/timers" />;
 }

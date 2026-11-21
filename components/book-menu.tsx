@@ -1,5 +1,7 @@
 "use client";
 import Link from "next/link";
+import { TAB_LEAVING_EVENT } from "@/lib/navigation/tabs";
+import { useOffline, OfflineStatus } from "./offline/provider";
 import { useEffect, useRef, useState } from "react";
 import {
   Menu,
@@ -35,6 +37,7 @@ export function BookMenu({
   onBackup: () => void;
   onSync: () => void;
 }) {
+  const { offline } = useOffline();
   const [open, setOpen] = useState(false);
   const container = useRef<HTMLDivElement>(null);
   const toggle = useRef<HTMLButtonElement>(null);
@@ -49,9 +52,12 @@ export function BookMenu({
         toggle.current?.focus();
       }
     }
+    const closeMenu = () => setOpen(false);
+    window.addEventListener(TAB_LEAVING_EVENT, closeMenu);
     document.addEventListener("pointerdown", outside);
     document.addEventListener("keydown", escape);
     return () => {
+      window.removeEventListener(TAB_LEAVING_EVENT, closeMenu);
       document.removeEventListener("pointerdown", outside);
       document.removeEventListener("keydown", escape);
     };
@@ -107,12 +113,21 @@ export function BookMenu({
           <BookOpen size={18} />
           Practice
         </button>
-        <Link className="navitem" href="/timers" onClick={() => setOpen(false)}>
+        <Link
+          prefetch={true}
+          className="navitem"
+          href="/timers"
+          onClick={() => setOpen(false)}
+        >
           <Timer size={18} />
           Timers
         </Link>
         <div className="my-2 border-t border-[var(--line)]" />
-        <button className="navitem" onClick={() => choose(onAdd)}>
+        <button
+          className="navitem"
+          disabled={offline}
+          onClick={() => choose(onAdd)}
+        >
           <Plus size={18} />
           Add dish
         </button>
@@ -122,18 +137,23 @@ export function BookMenu({
             ? "Back to dishes"
             : "Hidden dishes (" + hiddenCount + ")"}
         </button>
-        <button className="navitem" onClick={() => choose(onBackup)}>
+        <button
+          className="navitem"
+          disabled={offline}
+          onClick={() => choose(onBackup)}
+        >
           <DatabaseBackup size={18} />
           Backup and restore
         </button>
         <button
           className="navitem"
-          disabled={busy}
+          disabled={busy || offline}
           onClick={() => choose(onSync)}
         >
           <RefreshCw size={18} />
           {busy ? "Syncing…" : "Sync"}
         </button>
+        <OfflineStatus />
       </nav>
     </div>
   );

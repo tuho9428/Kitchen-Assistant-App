@@ -1,6 +1,7 @@
 "use client";
 import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import { useOffline } from "./offline/provider";
 import {
   BookOpen,
   ChefHat,
@@ -26,10 +27,14 @@ type View = "lookup" | "favorites" | "practice";
 export function Kitchen({
   initial,
   initialError,
+  active = true,
 }: {
   initial: Data | null;
   initialError: string;
+  active?: boolean;
 }) {
+  const { offline, cachedBook, saveBook } = useOffline();
+  const [hasLiveData, setHasLiveData] = useState(!!initial && !initialError);
   const [data, setData] = useState<Data>(
     initial ?? { dishes: [], favorites: [], hidden: [] },
   );
@@ -50,31 +55,68 @@ export function Kitchen({
   const [practice, setPractice] = useState<string | null>(null);
   const [revealed, setRevealed] = useState(false);
   const search = useRef<HTMLInputElement>(null);
-  const refresh = useCallback(async () => {
-    try {
-      const r = await loadData();
-      if (!r.ok) setError(r.error);
-      else {
-        setData(r.data as Data);
-        setError("");
+  const readInFlight = useRef<Promise<void> | null>(null);
+  const lastReadAt = useRef(initial && !initialError ? Date.now() : 0);
+  const refresh = useCallback(async (force = true) => {
+    if (!navigator.onLine) return;
+    if (readInFlight.current) return readInFlight.current;
+    const now = Date.now();
+    if (!force && lastReadAt.current && now - lastReadAt.current < 30000)
+      return;
+    lastReadAt.current = now;
+    const request = (async () => {
+      try {
+        const r = await loadData();
+        if (!r.ok) setError(r.error);
+        else {
+          setData(r.data as Data);
+          setHasLiveData(true);
+          setError("");
+        }
+      } catch {
+        setError(
+          "Unable to sync. Your current dishes are still available. Check your connection and retry.",
+        );
       }
-    } catch {
-      setError(
-        "Unable to sync. Your current dishes are still available. Check your connection and retry.",
-      );
+    })();
+    readInFlight.current = request;
+    try {
+      await request;
+    } finally {
+      if (readInFlight.current === request) readInFlight.current = null;
     }
   }, []);
   useEffect(() => {
-    function focus() {
-      void refresh();
-    }
-    window.addEventListener("focus", focus);
+    if (hasLiveData && !offline) void saveBook(data);
+  }, [data, hasLiveData, offline, saveBook]);
+  useEffect(() => {
+    if (!cachedBook || (hasLiveData && !offline)) return;
+    const task = setTimeout(() => {
+      setData(cachedBook.data);
+      if (initialError)
+        setError("Unable to sync. Showing the saved prep book.");
+    }, 0);
+    return () => clearTimeout(task);
+  }, [cachedBook, hasLiveData, offline, initialError]);
+  useEffect(() => {
+    const automatic = () => {
+      void refresh(false);
+    };
+    const reconnect = () => {
+      void refresh(true);
+    };
+    // Activity restores this effect when the tab becomes visible again.
+    const activate = setTimeout(automatic, 0);
+    window.addEventListener("focus", automatic);
+    window.addEventListener("online", reconnect);
     const timer = setInterval(() => {
-      if (document.visibilityState === "visible") void refresh();
+      if (document.visibilityState === "visible") automatic();
     }, 30000);
     return () => {
-      window.removeEventListener("focus", focus);
+      clearTimeout(activate);
       clearInterval(timer);
+      window.removeEventListener("focus", automatic);
+      window.removeEventListener("online", reconnect);
     };
   }, [refresh]);
   const categories = [...new Set(data.dishes.map((d) => d.category))].sort();
@@ -127,6 +169,12 @@ export function Kitchen({
     else requestAnimationFrame(() => search.current?.focus());
   }
   async function perform(fn: () => Promise<void>) {
+    if (!navigator.onLine) {
+      setError(
+        "Connect to the internet to make changes. Your saved dishes and timers are available offline.",
+      );
+      return;
+    }
     if (lock.current) return;
     lock.current = true;
     setBusy(true);
@@ -190,7 +238,7 @@ export function Kitchen({
         </div>
       </header>
       <div className="mx-auto w-full max-w-[1440px] px-3 md:px-5">
-        <main id="main" className="min-w-0">
+        <main id={active ? "main" : undefined} className="min-w-0">
           <h1 className="sr-only">
             {view === "practice"
               ? "Practice"
@@ -205,7 +253,7 @@ export function Kitchen({
               <p>{error}</p>
               <button
                 className="button small mt-3"
-                disabled={busy}
+                disabled={busy || offline}
                 onClick={() => perform(refresh)}
               >
                 Retry sync
@@ -390,7 +438,7 @@ export function Kitchen({
             <div className="flex flex-wrap gap-3 mt-7">
               <button
                 className="button"
-                disabled={busy}
+                disabled={busy || offline}
                 onClick={() => toggleFavorite(current)}
               >
                 <Star size={18} />
@@ -405,6 +453,7 @@ export function Kitchen({
                 <>
                   <button
                     className="button"
+                    disabled={offline}
                     onClick={() => {
                       setEditing({ dish: current });
                       setSelected(null);
@@ -415,7 +464,7 @@ export function Kitchen({
                   </button>
                   <button
                     className="button danger"
-                    disabled={busy}
+                    disabled={busy || offline}
                     onClick={() => {
                       setDeleting(true);
                       setDeleteExpected(current.updated_at);
@@ -446,7 +495,7 @@ export function Kitchen({
                 <div className="flex gap-3 mt-4">
                   <button
                     className="button danger"
-                    disabled={busy || deleteConfirm !== current.name}
+                    disabled={busy || offline || deleteConfirm !== current.name}
                     onClick={() =>
                       perform(async () => {
                         const r = await deleteDish(current.id, deleteExpected);
@@ -469,7 +518,7 @@ export function Kitchen({
                   </button>
                   <button
                     className="button"
-                    disabled={busy}
+                    disabled={busy || offline}
                     onClick={() => {
                       setDeleting(false);
                     }}

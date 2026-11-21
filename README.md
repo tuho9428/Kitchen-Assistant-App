@@ -29,7 +29,7 @@ Open [localhost:3000](http://localhost:3000). The app automatically creates its 
 
 The original data/dishes.json remains unchanged: 56 English dishes in 8 categories. All text and source-page references are preserved, including five dishes with notes but no ingredient groups. Mongolian Beef remains M → Beef; L → Red onion, Green onion. The supplied vocabulary glossary is not treated as the recipe PDF.
 
-When Neon is temporarily unavailable, the original reference remains searchable with a visible notice. Failed edits keep the draft open. The app never claims that a local-only change was saved; PostgreSQL is the source of truth and there is no localStorage or local database fallback for shared recipe edits. Active timers and search history are device-local.
+When Neon is temporarily unavailable, a saved device snapshot is used where available; the original reference remains the server fallback with a visible notice. Failed edits keep the draft open. The app never claims that a local-only change was saved; PostgreSQL is the source of truth and there is no localStorage or local database fallback for shared recipe edits. Active timers and search history are device-local.
 
 ## Database
 
@@ -48,6 +48,39 @@ Shared presets and dish timer switches are stored in Neon, using db/migrations/0
 Open Timer settings at /timers/settings to create or edit presets and enable timers per dish. For an enabled dish, choose the saved-preset dropdown, enter default minutes and seconds directly, or enter a duration each time. Direct dish defaults save independently of shared presets. These shared changes save to Neon without signing in. Existing /admin/timers links redirect there. Migration 004_shared_timers.sql enables shared editing while preserving saved presets, dish settings and recipes.
 
 For deployment, only the existing server-only DATABASE_URL is required. TIMER_ADMIN_USERNAME, TIMER_ADMIN_PASSWORD, ADMIN_PASSWORD and TIMER_SESSION_SECRET are no longer used and can be removed from Vercel. Do not commit .env.local.
+
+Timer configuration is cached on each device for one hour, including across reloads. Focus and visibility events reuse fresh settings; overlapping requests share one fetch. Saving settings forces a refresh and notifies other tabs on the same origin. Reconnecting or using Refresh presets on Timers also forces a refresh. A saved-change revision also survives navigation or reload before the refresh finishes, preventing an older snapshot from being treated as fresh. Other devices retain their one-hour copy until expiry, reconnect, or Refresh presets; no realtime connection is used. Unchanged responses do not replace the React configuration state. Countdown ticks never fetch configuration. Successful HTTP responses use a private one-hour cache, while forced refreshes bypass it.
+
+## Main tab navigation
+
+Prep book and Timers switch locally without a document reload, online or offline. Their view state (search, filters, scroll position and timer form drafts) is kept for up to one hour of inactivity. Active timers live outside the cached views and are unaffected by view expiration. Returning to Prep book checks shared data in the background only when the last automatic read is at least 30 seconds old. Activation, focus and polling share one in-flight request; rapid tab switches do not cause duplicate reads. Manual Sync and reconnect force a fresh read. Main route links are fully prefetched for a one-hour client cache; dynamic settings pages keep their normal freshness.
+
+## Offline use
+
+Open the production app online on each device, open Menu, and wait for **Offline ready**. The menu shows the last prep-book sync time. The app then supports reopening and refreshing the prep book, dish details, search, category filters, practice and timers without internet. Saved favorites and hidden-dish visibility remain available for reading.
+
+The service worker saves an offline page, its JavaScript/CSS/fonts, icons and sounds/sounds_1.mp3. IndexedDB stores validated snapshots of the latest dishes, favorites, hidden IDs and timer configuration. Timers continue in localStorage with absolute deadlines. The alarm MP3 is decoded from the local cache after enabling sound; the app must remain open for reliable alarms.
+
+While offline, an indicator shows the last sync time. Recipe edits, favorite/visibility changes, deletion, imports and shared timer settings are disabled. Nothing is queued or represented as saved to Neon. Reconnecting refreshes the open prep book and timer configuration automatically. Conflicts continue to use existing server version checks.
+
+Offline support requires HTTPS (as on Vercel) or localhost, an online first load and browser storage. A fresh device or one whose site data was cleared needs another online load. Invalid or missing snapshots show an explicit message instead of pretending to contain the latest dishes. Browsers may remove stored site data; reopen online to refresh it. Add to Home Screen is optional.
+
+Service workers are enabled in production builds, including browser tests. For local offline verification use:
+
+```text
+npm run build
+npm start
+```
+
+The development server remains optimized for live code changes and does not register the offline service worker. Offline assets are refreshed online as complete versioned copies; a failed download leaves the prior complete copy available. Server actions, API responses and database credentials are never put in the service-worker cache.
+
+## Browser console troubleshooting
+
+Hydration warnings listing data-qb-installed, fdprocessedid or an unexpected suppresshydrationwarning HTML attribute indicate a browser extension changed the page before React loaded. Those attributes are not emitted by Kitchen Prep. Disable writing-assistant, autofill or form-processing extensions for localhost, or test in an extension-free browser profile. App hydration warnings are not globally suppressed.
+
+The React DevTools suggestion and HMR connected messages are normal development logs. A failed /__nextjs_font/geist-mono-latin.woff2 request while offline belongs to the Next.js development overlay. Test offline behavior with a production preview after Menu shows Offline ready; development does not install the offline service worker.
+
+Development writes to .next-dev, production to .next, and browser tests to .next-e2e. This prevents a running development server from overwriting production scripts, styles or manifests. Restart existing servers after changing build configuration.
 
 ## Verify
 

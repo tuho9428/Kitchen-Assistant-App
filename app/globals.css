@@ -573,3 +573,11 @@ textarea {
     transition: none;
   }
 }
+
+.offline-notice {
+  padding: 8px 16px;
+  background: #fff1e5;
+  color: #653a20;
+  border-bottom: 1px solid #d6baa2;
+  font-size: 14px;
+}

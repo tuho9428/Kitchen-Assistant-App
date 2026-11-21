@@ -2,8 +2,13 @@
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { useOffline } from "@/components/offline/provider";
 import { Pencil, Trash2 } from "lucide-react";
-import type { TimerPreset, DishTimerSetting } from "@/lib/timers/config";
+import {
+  TIMER_CONFIG_CHANGE_KEY,
+  type TimerPreset,
+  type DishTimerSetting,
+} from "@/lib/timers/config";
 import { presetId } from "@/lib/timers/ids";
 import { formatTimer } from "@/lib/timers/model";
 import {
@@ -22,6 +27,7 @@ export function TimerSettings({
   dishes: { id: string; name: string; category: string }[];
 }) {
   const router = useRouter();
+  const { offline } = useOffline();
   const [presets, setPresets] = useState(initialPresets);
   const [settings, setSettings] = useState(initialSettings);
   const [draftId, setDraftId] = useState(presetId);
@@ -87,9 +93,16 @@ export function TimerSettings({
     return () => window.removeEventListener("beforeunload", warn);
   }, [presetDirty, dishDirty]);
   function notify() {
+    try {
+      localStorage.setItem(TIMER_CONFIG_CHANGE_KEY, presetId());
+    } catch {}
     window.dispatchEvent(new Event("kitchen-timer-config-changed"));
   }
   async function run(action: () => Promise<void>) {
+    if (!navigator.onLine) {
+      setError("Connect to the internet to change shared timer settings.");
+      return;
+    }
     if (lock.current) return;
     lock.current = true;
     setPending(true);
@@ -175,7 +188,7 @@ export function TimerSettings({
         <h2 className="font-semibold text-lg">
           {editing ? "Edit preset" : "New preset"}
         </h2>
-        <fieldset disabled={pending} className="space-y-4">
+        <fieldset disabled={pending || offline} className="space-y-4">
           <label className="field">
             Preset name
             <input
@@ -258,7 +271,7 @@ export function TimerSettings({
               <div className="flex">
                 <button
                   className="iconbutton"
-                  disabled={pending}
+                  disabled={pending || offline}
                   aria-label={"Edit preset " + p.label}
                   onClick={() => edit(p)}
                 >
@@ -266,7 +279,7 @@ export function TimerSettings({
                 </button>
                 <button
                   className="iconbutton"
-                  disabled={pending}
+                  disabled={pending || offline}
                   aria-label={"Delete preset " + p.label}
                   onClick={() => {
                     if (
@@ -358,7 +371,7 @@ export function TimerSettings({
       >
         <h2 className="font-semibold text-lg">Dish timers</h2>
         <fieldset
-          disabled={pending || dishes.length === 0}
+          disabled={pending || offline || dishes.length === 0}
           className="space-y-4"
         >
           <label className="field">

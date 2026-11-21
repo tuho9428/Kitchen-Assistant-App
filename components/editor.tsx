@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { Plus, Trash2 } from "lucide-react";
 import { Dialog } from "./dialog";
 import { dishSchema, inputOf, type Dish, type DishInput } from "@/lib/dishes";
+import { useOffline } from "./offline/provider";
 import { saveDish } from "@/lib/actions";
 export function Editor({
   dish,
@@ -13,6 +14,7 @@ export function Editor({
   onClose: () => void;
   onSaved: (dish: Dish) => void;
 }) {
+  const { offline } = useOffline();
   const [draft, setDraft] = useState<DishInput>(() =>
     dish
       ? inputOf(dish)
@@ -73,6 +75,12 @@ export function Editor({
         className="p-5 md:p-7"
         onSubmit={async (e) => {
           e.preventDefault();
+          if (!navigator.onLine) {
+            setError(
+              "Connect to the internet to save. Your draft is still here.",
+            );
+            return;
+          }
           if (lock.current) return;
           const parsed = dishSchema.safeParse(draft);
           if (!parsed.success) {
@@ -100,7 +108,7 @@ export function Editor({
           }
         }}
       >
-        <fieldset disabled={pending} className="space-y-6">
+        <fieldset disabled={pending || offline} className="space-y-6">
           <div className="grid md:grid-cols-2 gap-5">
             <label className="field">
               Dish name
@@ -327,7 +335,7 @@ export function Editor({
           >
             Cancel
           </button>
-          <button className="button primary" disabled={pending}>
+          <button className="button primary" disabled={pending || offline}>
             {pending ? "Saving…" : "Save dish"}
           </button>
         </div>

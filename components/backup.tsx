@@ -1,6 +1,7 @@
 "use client";
 import { useRef, useState } from "react";
 import { Download, Upload } from "lucide-react";
+import { useOffline } from "./offline/provider";
 import { Dialog } from "./dialog";
 import { Prep } from "./prep";
 import { backupSchema, previewImport, type Dish } from "@/lib/dishes";
@@ -14,6 +15,7 @@ export function Backup({
   onClose: () => void;
   onImported: () => Promise<void>;
 }) {
+  const { offline } = useOffline();
   const [backup, setBackup] = useState<ReturnType<
     typeof backupSchema.parse
   > | null>(null);
@@ -25,6 +27,10 @@ export function Backup({
   const [error, setError] = useState("");
   const preview = backup ? previewImport(baseline, backup.dishes) : [];
   async function run(fn: () => Promise<void>) {
+    if (!navigator.onLine) {
+      setError("Connect to the internet to use backups.");
+      return;
+    }
     if (lock.current) return;
     lock.current = true;
     setPending(true);
@@ -60,7 +66,7 @@ export function Backup({
           </p>
           <button
             className="button"
-            disabled={pending}
+            disabled={pending || offline}
             onClick={() =>
               run(async () => {
                 const r = await exportBackup();
@@ -94,7 +100,7 @@ export function Backup({
             <input
               type="file"
               accept=".json,application/json"
-              disabled={pending}
+              disabled={pending || offline}
               onChange={async (e) => {
                 setError("");
                 setBackup(null);
@@ -128,7 +134,7 @@ export function Backup({
             <button
               type="button"
               className="button small mt-3"
-              disabled={pending}
+              disabled={pending || offline}
               onClick={() => {
                 setBaseline(dishes);
                 setOverwrite(false);
@@ -179,7 +185,7 @@ export function Backup({
                 type="checkbox"
                 className="mt-1"
                 checked={overwrite}
-                disabled={pending}
+                disabled={pending || offline}
                 onChange={(e) => setOverwrite(e.target.checked)}
               />
               <span>
@@ -194,6 +200,7 @@ export function Backup({
             <button
               className="button primary mt-5"
               disabled={
+                offline ||
                 pending ||
                 preview.every((v) => v.status === "unchanged") ||
                 (!overwrite && !preview.some((v) => v.status === "new"))

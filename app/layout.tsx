@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { GeistSans } from "geist/font/sans";
 import "./globals.css";
+import { OfflineProvider } from "@/components/offline/provider";
 import { TimerProvider } from "@/components/timers/provider";
 export const metadata: Metadata = {
   title: "Kitchen Prep · Lookup",
@@ -14,7 +15,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <a href="#main" className="skip">
           Skip to content
         </a>
-        <TimerProvider>{children}</TimerProvider>
+        <OfflineProvider>
+          <TimerProvider>{children}</TimerProvider>
+        </OfflineProvider>
       </body>
     </html>
   );

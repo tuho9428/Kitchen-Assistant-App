@@ -43,3 +43,6 @@ db/
 db/*
 !db/migrations/
 !db/migrations/*.sql
+
+# Isolated local development output
+.next-dev/

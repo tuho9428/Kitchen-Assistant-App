@@ -1,11 +1,11 @@
 import { loadData } from "@/lib/actions";
 import { originalCatalog } from "@/lib/catalog";
-import { Kitchen } from "@/components/kitchen";
+import { MainTabs } from "@/components/main-tabs";
 export const dynamic = "force-dynamic";
 export default async function Page() {
   const result = await loadData();
   return (
-    <Kitchen
+    <MainTabs
       initial={
         result.ok
           ? result.data

@@ -31,3 +31,6 @@ export const EMPTY_TIMER_CONFIG: TimerConfig = {
   presets: [],
   settings: [],
 };
+
+export const TIMER_CONFIG_CACHE_MS = 60 * 60 * 1000;
+export const TIMER_CONFIG_CHANGE_KEY = "kitchen-prep:timer-config-revision";

@@ -1,5 +1,6 @@
 "use client";
 import { ChevronRight, Eye, EyeOff, Star } from "lucide-react";
+import { useOffline } from "./offline/provider";
 import type { Dish } from "@/lib/dishes";
 import { DishTimerButton } from "./timers/dish-timer-button";
 export function DishCard({
@@ -19,6 +20,7 @@ export function DishCard({
   onFavorite: () => void;
   onToggleHidden: () => void;
 }) {
+  const { offline } = useOffline();
   return (
     <article className="dishcard" aria-labelledby={"card-" + dish.id}>
       <div className="flex gap-3 justify-between items-start">
@@ -35,7 +37,7 @@ export function DishCard({
           className={"iconbutton " + (favorite ? "isfavorite" : "")}
           aria-label={(favorite ? "Unfavorite " : "Favorite ") + dish.name}
           aria-pressed={favorite}
-          disabled={busy}
+          disabled={busy || offline}
           onClick={onFavorite}
         >
           <Star size={21} fill={favorite ? "currentColor" : "none"} />
@@ -101,7 +103,7 @@ export function DishCard({
         <button
           className="textbutton text-sm text-stone-600"
           aria-label={(hidden ? "Restore " : "Hide ") + dish.name}
-          disabled={busy}
+          disabled={busy || offline}
           onClick={onToggleHidden}
         >
           {hidden ? (

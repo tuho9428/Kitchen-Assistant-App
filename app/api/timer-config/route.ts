@@ -14,7 +14,7 @@ export async function GET() {
     ]);
     return NextResponse.json(
       timerConfigSchema.parse({ configured: true, presets, settings }),
-      { headers: { "Cache-Control": "no-store" } },
+      { headers: { "Cache-Control": "private, max-age=3600" } },
     );
   } catch {
     return NextResponse.json(

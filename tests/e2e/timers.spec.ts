@@ -10,6 +10,19 @@ async function custom(page: Page, name: string, seconds: string) {
     page.getByRole("article", { name: name + " timer", exact: true }),
   ).toBeVisible();
 }
+async function refreshSharedTimers(page: Page) {
+  await page.goto("/timers");
+  const response = page.waitForResponse((r) =>
+    r.url().endsWith("/api/timer-config"),
+  );
+  await page
+    .getByRole("button", { name: "Refresh presets", exact: true })
+    .click();
+  await (await response).finished();
+  await expect(
+    page.getByRole("button", { name: "Refresh presets", exact: true }),
+  ).toBeEnabled();
+}
 test("custom concurrent timers persist across navigation, pause independently and recover elapsed time", async ({
   page,
 }) => {
@@ -208,6 +221,8 @@ test("everyone can manage manual presets and dish switches; disabling keeps exis
   await expect(page.getByLabel("Default seconds", { exact: true })).toHaveValue(
     "15",
   );
+  // Another isolated browser represents a different device: refresh its one-hour cache explicitly.
+  await refreshSharedTimers(user);
   await user.goto("/dishes/mongolian-beef");
   await user
     .getByRole("button", { name: "Start Timer for Mongolian Beef" })
@@ -239,6 +254,8 @@ test("everyone can manage manual presets and dish switches; disabling keeps exis
   await expect(page.getByRole("status")).toHaveText(
     "Dish timer setting saved.",
   );
+  // Another isolated browser represents a different device: refresh its one-hour cache explicitly.
+  await refreshSharedTimers(user);
   await user.goto("/dishes/mongolian-beef");
   await user
     .getByRole("button", { name: "Start Timer for Mongolian Beef" })
@@ -257,6 +274,8 @@ test("everyone can manage manual presets and dish switches; disabling keeps exis
   await expect(page.getByRole("status")).toHaveText(
     "Dish timer setting saved.",
   );
+  // Another isolated browser represents a different device: refresh its one-hour cache explicitly.
+  await refreshSharedTimers(user);
   await user.goto("/dishes/mongolian-beef");
   await expect(
     user.getByRole("button", { name: "Start Timer for Mongolian Beef" }),

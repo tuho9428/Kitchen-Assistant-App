@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import Link from "next/link";
+import { useOffline } from "@/components/offline/provider";
 import {
   Timer,
   Pause,
@@ -14,9 +15,11 @@ import { useTimers, useTimerSettings } from "./provider";
 import { timerStore } from "@/lib/timers/store";
 import { remainingTime, formatTimer } from "@/lib/timers/model";
 import { enableTimerSound, playTimerSound } from "@/lib/timers/sound";
-export function TimersPage() {
+export function TimersPage({ active = true }: { active?: boolean }) {
   const state = useTimers();
-  const { config, error: configError } = useTimerSettings();
+  const { offline } = useOffline();
+  const { config, error: configError, refresh } = useTimerSettings();
+  const [refreshingPresets, setRefreshingPresets] = useState(false);
   const [name, setName] = useState("");
   const [minutes, setMinutes] = useState("");
   const [seconds, setSeconds] = useState("");
@@ -34,7 +37,10 @@ export function TimersPage() {
     }
   }
   return (
-    <main id="main" className="mx-auto max-w-3xl p-4 md:p-6">
+    <main
+      id={active ? "main" : undefined}
+      className="mx-auto max-w-3xl p-4 md:p-6"
+    >
       <header className="flex items-center justify-between gap-3 mb-5">
         <h1 className="text-2xl font-semibold tracking-tight flex items-center gap-2">
           <Timer size={25} />
@@ -227,7 +233,23 @@ export function TimersPage() {
         )}
       </section>
       <section className="mt-7">
-        <h2 className="font-semibold mb-3">Shared presets</h2>
+        <div className="flex items-center justify-between gap-3 mb-3">
+          <h2 className="font-semibold">Shared presets</h2>
+          <button
+            className="textbutton text-sm"
+            disabled={refreshingPresets || offline}
+            onClick={async () => {
+              setRefreshingPresets(true);
+              try {
+                await refresh(true);
+              } finally {
+                setRefreshingPresets(false);
+              }
+            }}
+          >
+            {refreshingPresets ? "Refreshing…" : "Refresh presets"}
+          </button>
+        </div>
         {configError && <p className="notice mb-3">{configError}</p>}
         {!config.configured ? (
           <p className="text-sm text-stone-600">

@@ -1,10 +1,26 @@
 import type { NextConfig } from "next";
 const config: NextConfig = {
   logging: { serverFunctions: false },
-  // Keep production output separate from browser-test development workers.
-  distDir: process.env.KITCHEN_TEST_BUILD === "1" ? ".next-e2e" : ".next",
+  experimental: { staleTimes: { dynamic: 0, static: 3600 } },
+  // Development, production and browser tests must not overwrite each other.
+  distDir:
+    process.env.KITCHEN_TEST_BUILD === "1"
+      ? ".next-e2e"
+      : process.env.NODE_ENV === "development"
+        ? ".next-dev"
+        : ".next",
   async headers() {
     return [
+      {
+        source: "/sw.js",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "no-cache, no-store, must-revalidate",
+          },
+          { key: "Service-Worker-Allowed", value: "/" },
+        ],
+      },
       {
         source: "/:path*",
         headers: [
